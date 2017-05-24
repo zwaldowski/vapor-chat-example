@@ -1,7 +1,8 @@
 import Vapor
 import Foundation
 
-let drop = Droplet(workDir: workDir) //, providers: [mustache])
+let config = try Config()
+let drop = try Droplet(config: config)
 
 // MARK: Visit
 
@@ -41,5 +42,5 @@ drop.socket("chat") { req, ws in
     }
 }
 
-drop.run()
+try drop.run()
 
