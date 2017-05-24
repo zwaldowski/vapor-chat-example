@@ -1,18 +1,16 @@
 import Vapor
 
 class Room {
-    var connections: [String: WebSocket]
+    var connections: [String: WebSocket] = [:]
 
     func bot(_ message: String) {
         send(name: "Bot", message: message)
     }
 
     func send(name: String, message: String) {
-        let message = message.truncated(to: 256)
-
         let messageNode: [String: NodeRepresentable] = [
             "username": name,
-            "message": message
+            "message": message.truncated(to: 256)
         ]
 
         guard let json = try? JSON(node: messageNode) else {
@@ -26,9 +24,5 @@ class Room {
 
             try? socket.send(json)
         }
-    }
-
-    init() {
-        connections = [:]
     }
 }
